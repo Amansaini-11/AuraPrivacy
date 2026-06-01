@@ -2,54 +2,125 @@
 //  ContentView.swift
 //  Aura Privacy
 //
-//  Created by Aman on 13/05/26.
+//  Root shell: onboarding, splash, theme preference, and main dashboard.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
+import LocalAuthentication
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @AppStorage("appTheme") private var appThemeRaw = AppThemePreference.system.rawValue
+    @AppStorage("requireFaceID") private var requireFaceID = false
+    
+    @State private var splashComplete = false
+    @State private var didBootstrapLaunchFlow = false
+    @State private var appShellState = AppShellState()
+    @State private var viewModel = AuraViewModel()
+    @State private var shellScanCoordinator = ShellScanCoordinator()
+    @State private var isUnlocked = false
+    @State private var isAuthenticating = false
+    @Environment(\.scenePhase) private var scenePhase
+    
+    private var theme: AppThemePreference {
+        AppThemePreference(rawValue: appThemeRaw) ?? .system
+    }
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        Group {
+            if hasSeenOnboarding == false {
+                OnboardingView()
+            } else if splashComplete == false {
+                LaunchScreenView {
+                    splashComplete = true
+                }
+            } else {
+                MainTabShellView()
+                    .environment(appShellState)
+                    .environment(viewModel)
+                    .environment(shellScanCoordinator)
+            }
+        }
+        .preferredColorScheme(theme.colorScheme)
+        .overlay {
+            if requireFaceID && isUnlocked == false && hasSeenOnboarding && splashComplete {
+                ZStack {
+                    Color.black.opacity(0.92).ignoresSafeArea()
+                    VStack(spacing: 14) {
+                        Image(systemName: "faceid")
+                            .font(.system(size: 44, weight: .semibold))
+                            .foregroundStyle(.white)
+                        Text("Unlock Aura Privacy")
+                            .font(.headline.weight(.bold))
+                            .foregroundStyle(.white)
+                        Button("Use Face ID") {
+                            authenticateIfRequired()
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
                 }
-                .onDelete(perform: deleteItems)
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+        }
+        .animation(.easeInOut(duration: 0.3), value: hasSeenOnboarding)
+        .animation(.easeInOut(duration: 0.35), value: splashComplete)
+        .onAppear {
+            guard didBootstrapLaunchFlow == false else { return }
+            didBootstrapLaunchFlow = true
+            if hasSeenOnboarding == false {
+                splashComplete = true
             }
-        } detail: {
-            Text("Select an item")
+        }
+        .onChange(of: hasSeenOnboarding) { _, newValue in
+            if newValue {
+                splashComplete = true
+            }
+        }
+        .onChange(of: scenePhase) { _, newValue in
+            if newValue == .background || newValue == .inactive {
+                if requireFaceID && isAuthenticating == false {
+                    isUnlocked = false
+                }
+                return
+            }
+            guard newValue == .active else { return }
+            if requireFaceID {
+                if isUnlocked == false {
+                    authenticateIfRequired()
+                }
+            } else {
+                isUnlocked = true
+            }
+        }
+        .task {
+            if requireFaceID {
+                authenticateIfRequired()
+            } else {
+                isUnlocked = true
+            }
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
+    
+    private func authenticateIfRequired() {
+        guard requireFaceID else {
+            isUnlocked = true
+            return
         }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+        guard isAuthenticating == false else { return }
+        isAuthenticating = true
+        
+        let context = LAContext()
+        var error: NSError?
+        let policy: LAPolicy = .deviceOwnerAuthentication
+        guard context.canEvaluatePolicy(policy, error: &error) else {
+            isUnlocked = true
+            isAuthenticating = false
+            return
+        }
+        context.evaluatePolicy(policy, localizedReason: "Unlock your privacy dashboard") { success, _ in
+            DispatchQueue.main.async {
+                isUnlocked = success
+                isAuthenticating = false
             }
         }
     }
@@ -57,5 +128,9 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: [PrivacyAudit.self, AppRiskProfile.self], inMemory: true)
+        .environment(SubscriptionManager())
+        .environment(AppShellState())
+        .environment(AuraViewModel())
+        .environment(ShellScanCoordinator())
 }

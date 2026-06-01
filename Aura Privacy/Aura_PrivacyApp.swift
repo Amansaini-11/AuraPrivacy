@@ -2,30 +2,37 @@
 //  Aura_PrivacyApp.swift
 //  Aura Privacy
 //
-//  Created by Aman on 13/05/26.
+//  Application entry — wires SwiftData, subscriptions, and navigation shell state.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct Aura_PrivacyApp: App {
-    var sharedModelContainer: ModelContainer = {
+    @State private var subscriptions = SubscriptionManager()
+    
+    private var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            PrivacyAudit.self,
+            AppRiskProfile.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            fatalError("SwiftData container unavailable: \(error.localizedDescription)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(subscriptions)
+                .task {
+                    subscriptions.configureIfNeeded()
+                }
         }
         .modelContainer(sharedModelContainer)
     }
