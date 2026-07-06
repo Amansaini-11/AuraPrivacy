@@ -99,7 +99,6 @@
 
 <div align="center">
 
-> 📌 *Add your app screenshots below — replace the placeholder paths with your actual image files*
 
 <table>
   <tr>
@@ -134,12 +133,8 @@
 
 <div align="center">
 
-> 📌 *Replace the link below with your actual demo video URL (YouTube, Loom, or direct mp4)*
 
-[![Watch Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Aura%20Privacy%20in%20Action-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/your-demo-link-here)
-
-<!-- If hosting video directly in repo, use this instead: -->
-<!-- <video src="demo/aura-privacy-demo.mp4" width="600" controls></video> -->
+<video src="src/aura-privacy-demo.mp4" width="600" controls></video>
 
 </div>
 
