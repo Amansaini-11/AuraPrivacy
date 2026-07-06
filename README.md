@@ -127,14 +127,16 @@
 
 <div align="center">
 
-## 🎬 See It In Action
-
-</div>
 
 <div align="center">
 
+## 🎬 See It In Action
 
-<video src="src/aura-privacy-demo.mp4" width="600" controls></video>
+### -- Click on this Image below 👇 to watch the Video --
+
+<a href="https://youtu.be/v2kDJjD8VnI?si=9Ssg2mwZHYVb2ul9">
+  <img src="https://img.youtube.com/vi/v2kDJjD8VnI/maxresdefault.jpg" width="600" alt="Aura Privacy Demo"/>
+</a>
 
 </div>
 
