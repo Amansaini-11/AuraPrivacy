@@ -3,7 +3,6 @@
 <!-- Animated Header -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Aura%20Privacy&fontSize=60&fontColor=fff&animation=fadeIn&fontAlignY=38&desc=Your%20Privacy.%20On%20Device.%20Always.&descAlignY=60&descSize=18" width="100%"/>
 
-<!-- App Icon Placeholder -->
 <br/>
 
 <!-- Animated Typing -->
@@ -26,7 +25,7 @@
 
 <br/>
 
-<!-- License & Stars -->
+<!-- Stars & Forks -->
 ![GitHub stars](https://img.shields.io/github/stars/Amansaini-11/AuraPrivacy?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/Amansaini-11/AuraPrivacy?style=social)
 
@@ -95,27 +94,22 @@
 
 ## 📸 Screenshots
 
-</div>
-
-<div align="center">
-
-
 <table>
   <tr>
     <td align="center">
-      <img src="src/screenshots/dashboard.png" width="400" alt="Privacy Dashboard"/>
+      <img src="src/screenshots/dashboard.png" width="200" alt="Privacy Dashboard"/>
       <br/><sub><b>Privacy Dashboard</b></sub>
     </td>
     <td align="center">
-      <img src="src/screenshots/appscan.png" width="400" alt="App Scan"/>
+      <img src="src/screenshots/appscan.png" width="200" alt="App Scan"/>
       <br/><sub><b>App Scan</b></sub>
     </td>
     <td align="center">
-      <img src="src/screenshots/scanhistory.png" width="400" alt="Scan History"/>
+      <img src="src/screenshots/scanhistory.png" width="200" alt="Scan History"/>
       <br/><sub><b>Scan History</b></sub>
     </td>
     <td align="center">
-      <img src="src/screenshots/settings.png" width="400" alt="Settings"/>
+      <img src="src/screenshots/settings.png" width="200" alt="Settings"/>
       <br/><sub><b>Settings</b></sub>
     </td>
   </tr>
@@ -127,16 +121,19 @@
 
 <div align="center">
 
-
-<div align="center">
-
 ## 🎬 See It In Action
 
-### -- Click on this Image below 👇 to watch the Video --
+*👇 Click the thumbnail below to watch the full demo*
+
+<br/>
 
 <a href="https://youtu.be/v2kDJjD8VnI?si=9Ssg2mwZHYVb2ul9">
-  <img src="https://img.youtube.com/vi/v2kDJjD8VnI/maxresdefault.jpg" width="600" alt="Aura Privacy Demo"/>
+  <img src="https://img.youtube.com/vi/v2kDJjD8VnI/maxresdefault.jpg" width="600" alt="Aura Privacy Demo — Click to Watch"/>
 </a>
+
+<br/><br/>
+
+[![▶ Watch Full Demo on YouTube](https://img.shields.io/badge/▶%20Watch%20Full%20Demo%20on%20YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/v2kDJjD8VnI?si=9Ssg2mwZHYVb2ul9)
 
 </div>
 
