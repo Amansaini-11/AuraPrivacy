@@ -104,19 +104,19 @@
 <table>
   <tr>
     <td align="center">
-      <img src="screenshots/dashboard.png" width="400" alt="Privacy Dashboard"/>
+      <img src="src/screenshots/dashboard.png" width="400" alt="Privacy Dashboard"/>
       <br/><sub><b>Privacy Dashboard</b></sub>
     </td>
     <td align="center">
-      <img src="screenshots/appscan.png" width="400" alt="App Scan"/>
+      <img src="src/screenshots/appscan.png" width="400" alt="App Scan"/>
       <br/><sub><b>App Scan</b></sub>
     </td>
     <td align="center">
-      <img src="screenshots/scanhistory.png" width="400" alt="Scan History"/>
+      <img src="src/screenshots/scanhistory.png" width="400" alt="Scan History"/>
       <br/><sub><b>Scan History</b></sub>
     </td>
     <td align="center">
-      <img src="screenshots/settings.png" width="400" alt="Settings"/>
+      <img src="src/screenshots/settings.png" width="400" alt="Settings"/>
       <br/><sub><b>Settings</b></sub>
     </td>
   </tr>
